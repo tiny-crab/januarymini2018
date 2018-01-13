@@ -14,14 +14,17 @@ public class WalletLogic : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         List<float> distances = new List<float>();
-        foreach (BoxCollider2D pocketCollider in pocketColliders)
-        {
+        foreach (BoxCollider2D pocketCollider in pocketColliders) {
             distances.Add(Vector3.Distance(transform.position, pocketCollider.transform.position));
         }
-
         distances.Sort((d1, d2) => d1.CompareTo(d2));
         handler.UpdateDistance(distances[0]);
-       
-
     }
+
+	void OnCollisionEnter2D(Collision2D collider) {
+		Debug.Log ("Collided with" + collider.gameObject.name);
+		if (collider.gameObject.name == "PocketCollider") {
+			handler.UpdateState ();
+		}
+	}
 }

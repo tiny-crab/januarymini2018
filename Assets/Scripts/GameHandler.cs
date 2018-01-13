@@ -63,7 +63,6 @@ public class GameHandler : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Distance:" + distance);
         sliderDistance.value = (distance / maxDistance); //the closer the hand to the border, the higher the alert-meter thing
 
         timeInPercent = currentTime / maxTime;
