@@ -42,7 +42,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField]
     private Sprite[] punctuation;
 
-    public enum State {Unaware, Suspicious, Alerted};
+    public enum State {Unaware, Suspicious, Alerted,EndGame};
 
     State state;
 
@@ -109,7 +109,7 @@ public class GameHandler : MonoBehaviour
             gameOverScreen.SetActive(true);
     }
 
-    public void UpdateState( )
+    public void UpdateState()
     {
         state ++;
         switch (state)
@@ -127,6 +127,9 @@ public class GameHandler : MonoBehaviour
                 currentPortrait.sprite = portrait[2];
                 currentPunctuation.sprite = punctuation[2];
 
+                break;
+            case State.EndGame:
+                gameOverScreen.SetActive(true);
                 break;
             default:
                 Debug.LogError("No. Just no.");
