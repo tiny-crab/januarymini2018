@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameHandler : MonoBehaviour
 {
@@ -42,6 +43,9 @@ public class GameHandler : MonoBehaviour
 
     State state;
 
+    [SerializeField]
+    private GameObject gameOverScreen;
+
     private void Start()
     {
         sliderDistance.value = 0;
@@ -59,6 +63,11 @@ public class GameHandler : MonoBehaviour
 
         timeInPercent = currentTime / maxTime;
         sliderTimer.value = timeInPercent;
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+            {
+            SceneManager.LoadScene(0);
+            }
         
 
     }
@@ -91,7 +100,7 @@ public class GameHandler : MonoBehaviour
         if (positive)
             Debug.Log("You win");
         else
-            Debug.Log("You lose");
+            gameOverScreen.SetActive(true);
     }
 
     public void UpdateState(State incoming)
