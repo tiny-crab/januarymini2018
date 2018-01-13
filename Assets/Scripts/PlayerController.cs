@@ -6,13 +6,15 @@ public class PlayerController: MonoBehaviour {
 
 	private Rigidbody2D rb2d;
 	private Rigidbody2D wallet = null;
+	private FixedJoint2D anchor;
+	private GameObject walletObject;
 	private float mouseOffsetX, mouseOffsetY;
-	private Transform transform;
+	private bool isOnWallet = false;
 	[SerializeField] float speed = 1;
 
 	void Start () { 
-		rb2d = GetComponent<Rigidbody2D> ();
-		transform = GetComponent<Transform> ();
+		rb2d = GetComponent<Rigidbody2D> (); 
+		anchor = GetComponent<FixedJoint2D> ();
 	}
 
 	void Update () {
@@ -24,17 +26,28 @@ public class PlayerController: MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D (Collision2D collider) {
-		Debug.Log (collider.gameObject.name);
+		// add stress
+	}
 
+	void OnTriggerEnter2D (Collider2D collider) { 
+		Debug.Log (collider.gameObject.name);
 		if (collider.gameObject.name == "Wallet") {
-			if (Input.GetMouseButtonDown (0)) {
-				Debug.Log ("clicking");
-				wallet = collider.gameObject.GetComponent<Rigidbody2D> ();
-			}
+			isOnWallet = true;
+			walletObject = collider.gameObject;
 		}
 	}
 
-	void OnMouseDown () { 
+	void OnTriggerExit2D  (Collider2D collider) {
+		Debug.Log (collider.gameObject.name);
+		if (collider.gameObject.name == "Wallet") {
+			isOnWallet = false;
+		}
+	}
 
+	void OnMouseDown () {
+		if (isOnWallet) {
+			anchor.enabled = true;
+			anchor.connectedBody = walletObject.GetComponent<Rigidbody2D> ();
+		}
 	}
 }
