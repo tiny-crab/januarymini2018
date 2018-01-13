@@ -28,9 +28,9 @@ public class GameHandler : MonoBehaviour
     private float simulationSpeed;
 
     [SerializeField]
-    private Sprite currentPortrait;
+    private Image currentPortrait;
     [SerializeField]
-    private Sprite currentPunctuation;
+    private Image currentPunctuation;
 
     [SerializeField]
     private Sprite[] portrait;
@@ -38,7 +38,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField]
     private Sprite[] punctuation;
 
-    enum State {Unaware, Suspicious, Alerted};
+    public enum State {Unaware, Suspicious, Alerted};
 
     State state;
 
@@ -59,6 +59,8 @@ public class GameHandler : MonoBehaviour
 
         timeInPercent = currentTime / maxTime;
         sliderTimer.value = timeInPercent;
+        
+
     }
 
     IEnumerator Timer()
@@ -92,22 +94,23 @@ public class GameHandler : MonoBehaviour
             Debug.Log("You lose");
     }
 
-    public void UpdateState()
+    public void UpdateState(State incoming)
     {
+        state = incoming;
         switch (state)
         {
             case State.Unaware:
-                currentPortrait = portrait[0];
-                currentPunctuation = punctuation[0];
+                currentPortrait.sprite = portrait[0];
+                currentPunctuation.sprite = punctuation[0];
                 break;
             case State.Suspicious:
-                currentPortrait = portrait[1];
-                currentPunctuation = punctuation[1];
+                currentPortrait.sprite = portrait[1];
+                currentPunctuation.sprite = punctuation[1];
 
                 break;
             case State.Alerted:
-                currentPortrait = portrait[2];
-                currentPunctuation = punctuation[2];
+                currentPortrait.sprite = portrait[2];
+                currentPunctuation.sprite = punctuation[2];
 
                 break;
             default:
