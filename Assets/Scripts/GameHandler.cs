@@ -19,6 +19,9 @@ public class GameHandler : MonoBehaviour
     [SerializeField]
     private float maxTime = 60;
 
+    [SerializeField]
+    private float maxDistance = 100;
+
     private float currentTime;
 
     private float timeInPercent;
@@ -48,6 +51,7 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
+        state = State.Unaware;
         sliderDistance.value = 0;
         StartCoroutine(Timer());
         currentTime = maxTime;
@@ -59,7 +63,8 @@ public class GameHandler : MonoBehaviour
 
     private void Update()
     {
-        sliderDistance.value = distance * -1; //the closer the hand to the border, the higher the alert-meter thing
+        Debug.Log("Distance:" + distance);
+        sliderDistance.value = (distance / maxDistance); //the closer the hand to the border, the higher the alert-meter thing
 
         timeInPercent = currentTime / maxTime;
         sliderTimer.value = timeInPercent;
@@ -88,11 +93,12 @@ public class GameHandler : MonoBehaviour
     public void UpdateDistance(float incoming)
     {
         distance = incoming;
+
     }
 
     public void UpdateAttention(float incoming)
     {
-        attention = incoming;
+        attention += incoming;
     }
 
     public void EndGame(bool positive)
@@ -103,9 +109,9 @@ public class GameHandler : MonoBehaviour
             gameOverScreen.SetActive(true);
     }
 
-    public void UpdateState(State incoming)
+    public void UpdateState( )
     {
-        state = incoming;
+        state ++;
         switch (state)
         {
             case State.Unaware:

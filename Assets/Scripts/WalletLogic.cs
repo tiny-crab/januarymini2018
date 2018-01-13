@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WalletLogic : MonoBehaviour {
 	
-	private float distance;
 
 	[SerializeField] GameHandler handler;
 	[SerializeField] List<BoxCollider2D> pocketColliders;
@@ -14,12 +13,15 @@ public class WalletLogic : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		foreach (BoxCollider2D pocketCollider in pocketColliders) {
-			float tempDistance = Vector3.Distance (transform.position, pocketCollider.transform.position);
-			if (tempDistance < distance) {
-				distance = tempDistance;
-			}
-		}
-		handler.UpdateDistance (distance);
-	}
+        List<float> distances = new List<float>();
+        foreach (BoxCollider2D pocketCollider in pocketColliders)
+        {
+            distances.Add(Vector3.Distance(transform.position, pocketCollider.transform.position));
+        }
+
+        distances.Sort((d1, d2) => d1.CompareTo(d2));
+        handler.UpdateDistance(distances[0]);
+       
+
+    }
 }
