@@ -6,9 +6,8 @@ public class PlayerController: MonoBehaviour {
 
 	private Rigidbody2D rb2d;
 	private Rigidbody2D wallet = null;
-	private FixedJoint2D anchor;
 	private GameObject walletObject;
-	private float mouseOffsetX, mouseOffsetY;
+	private FixedJoint2D anchor;
 	private bool isOnWallet = false;
 	[SerializeField] float speed = 1;
 
@@ -21,12 +20,6 @@ public class PlayerController: MonoBehaviour {
 		Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		Vector3 force = (mousePos - transform.position) * speed * Time.deltaTime;
 		rb2d.AddForce (force, ForceMode2D.Force);
-		// TODO don't rely on the assumption that wallet and player have the same rigidbody physics attrs
-		if (wallet != null) { wallet.AddForce (force, ForceMode2D.Force); }
-	}
-
-	void OnCollisionEnter2D (Collision2D collider) {
-		// add stress
 	}
 
 	void OnTriggerEnter2D (Collider2D collider) { 
@@ -34,6 +27,7 @@ public class PlayerController: MonoBehaviour {
 		if (collider.gameObject.name == "Wallet") {
 			isOnWallet = true;
 			walletObject = collider.gameObject;
+			wallet = walletObject.GetComponent<Rigidbody2D> ();
 		}
 	}
 
@@ -47,7 +41,8 @@ public class PlayerController: MonoBehaviour {
 	void OnMouseDown () {
 		if (isOnWallet) {
 			anchor.enabled = true;
-			anchor.connectedBody = walletObject.GetComponent<Rigidbody2D> ();
+			anchor.connectedBody = wallet;
+			walletObject.AddComponent<BoxCollider2D> ();
 		}
 	}
 }
