@@ -131,7 +131,7 @@ public class GameHandler : MonoBehaviour
                 gameOverScreen.SetActive(true);
                 break;
             default:
-                Debug.LogError("No. Just no.");
+                Debug.Log("No. Just no.");
                 break;
         }
             
