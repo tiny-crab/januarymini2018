@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Man
+    uniqueID: 3231886541
+    locked: 0
   - name: Wallet
     uniqueID: 3792657273
     locked: 0
