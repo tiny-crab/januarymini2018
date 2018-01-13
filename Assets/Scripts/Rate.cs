@@ -10,6 +10,7 @@ public class Rate : MonoBehaviour
     Text guiText;
 
     [SerializeField] float loseValue = 90;
+    [SerializeField] GameObject gameOver;
 
     void Start()
     {
@@ -33,7 +34,7 @@ public class Rate : MonoBehaviour
                 int value = int.Parse(text);
                 if (value >= loseValue)
                 {
-                    SceneManager.LoadScene("YouLost");
+                    gameOver.SetActive(true);
                 }
             }
             catch
